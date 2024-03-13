@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require('mongoose');
 const dotenv =require('dotenv');
 const cors = require('cors');
+const authRoute = require('./routes/auth.js');
+
 const app = express();
 
 dotenv.config();
@@ -30,10 +32,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(cors(corsOptions));
+app.use(express.json());
+
+app.use("/api/auth", authRoute);
 
 app.get('/', (req, res) => {
-    res.send("Bonjour, bienvenu sur l'API de ERvery-Mean!");
+    res.send("Bonjour, bienvenu sur l'API de Every-Mean!");
 });
 
 app.listen(port, () => {
