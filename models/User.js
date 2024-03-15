@@ -8,19 +8,19 @@ const userSchema = new Schema({
     groups: { type: [Schema.Types.ObjectId], default: [] }
 });
 
-userSchema.methods.addGroup = function(groupId) {
+userSchema.methods.addGroup = function(groupId, session) {
     if (!this.groups.includes(groupId)) {
         this.groups.push(groupId);
-        return this.save();
+        return this.save({session});
     } else {
         return Promise.reject(new Error('Le groupe est déjà ajouté à l\'utilisateur.'));
     }
 };
 
-userSchema.methods.removeGroup = function(groupId) {
+userSchema.methods.removeGroup = function(groupId, session) {
     if (this.groups.includes(groupId)) {
         this.groups.pull(groupId);
-        return this.save();
+        return this.save({session});
     } else {
         return Promise.reject(new Error('Le groupe n\'est pas associé à l\'utilisateur.'));
     }
