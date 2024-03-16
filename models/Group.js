@@ -3,7 +3,7 @@ const { startSession } = require('mongoose');
 
 const { Schema } = mongoose;
 
-const gradeSchema = new Schema({
+const markSchema = new Schema({
     name: { type: String, default: "" },
     mark: { type: Number, default: -1 },
     coefficient: { type: Number, default: 1 }
@@ -11,7 +11,7 @@ const gradeSchema = new Schema({
 
 const groupSchema = new Schema({
     name: { type: String, default: "" },
-    marks: { type: [gradeSchema], default: [] },
+    marks: { type: [markSchema], default: [] },
     coefficient: { type: Number, default: 1 },
     groups: { type: [Schema.Types.ObjectId], default: [] },
     predecessor: { type: String, default: "" },
@@ -19,13 +19,13 @@ const groupSchema = new Schema({
     owner: { type: String, required: true }
 });
 
-groupSchema.methods.addGrade = function(gradeData) {
-    this.marks.push(gradeData);
+groupSchema.methods.addMark = function(markData) {
+    this.marks.push(markData);
     return this.save();
 };
 
-groupSchema.methods.removeGrade = function(gradeId) {
-    const index = this.marks.findIndex(grade => grade._id === gradeId);
+groupSchema.methods.removeMark = function(markId) {
+    const index = this.marks.findIndex(mark => mark._id == markId);
     if (index !== -1) {
         this.marks.splice(index, 1);
         return this.save();
