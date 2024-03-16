@@ -14,8 +14,8 @@ This API allows you to manage note groups and users. Users can create note group
 Make sure to set the following environment variables:
 
 - `PORT`: The port on which the server will listen for requests (default: 3000).
-- `MONGODB_URI`: The URI of the MongoDB database.
-- `JWT_SECRET`: The secret used to sign JWT tokens.
+- `DATABASE_URL`: The URI of the MongoDB database.
+- `SECRET_KEY`: The secret used to sign JWT tokens.
 
 ## Endpoints
 
