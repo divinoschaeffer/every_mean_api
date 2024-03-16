@@ -61,7 +61,7 @@ async function deleteGroup(req, res){
 
         await session.commitTransaction();
         session.endSession();
-        
+
         res.status(200).json({message: "Suppression du groupe avec succès"});
     } catch (error) {
         if (session) {
@@ -88,4 +88,48 @@ async function getGroup(req, res){
     }
 }
 
-module.exports = {createGroup, getGroup, deleteGroup};
+async function editGroup(req, res){
+    const id = req.params.id;
+
+    try {
+        const group = await Group.findByIdAndUpdate(id,req.body.group,{new: true});
+        res.status(200).json({group: group});
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({message: "Erreur lors de l'édition du groupe"});
+    }
+}
+
+async function addMark(req, res){
+    const id = req.params.id;
+
+    try {
+        let group = await Group.findById(id);
+        if(group.groups != [])
+            res.status(400).json({message: "Le groupe ne peut pas contenir des groupes et des notes"});
+        group = await group.addMark(req.body.mark);
+
+        res.status(200).json({group: group});
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({message: "Erreur lors de l'ajout de la note"});
+    }
+}
+
+async function deleteMark(req, res){
+    const id = req.params.id;
+    const mark = req.body.mark;
+    console.log(mark)
+
+    try {
+        let group = await Group.findById(id);
+        group = await group.removeMark(mark._id);
+        
+        res.status(200).json({group: group});
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({message: "Erreur lors de la suppresion de la note"});
+    }
+}
+
+module.exports = {createGroup, getGroup, deleteGroup, editGroup, addMark, deleteMark};
