@@ -21,8 +21,8 @@ Make sure to set the following environment variables:
 
 ### Users
 
-- `POST /api/auth/sign-in`: Create a new user. Requires a `username` and a `password`.
-- `POST /api/auth/login`: Log in a user. Requires a `username` and a `password`. Returns a JWT token for subsequent requests.
+- `POST /api/auth/sign-in`: Create a new user. Requires a `mail` and a `password`.
+- `POST /api/auth/login`: Log in a user. Requires a `mail` and a `password`. Returns a JWT token for subsequent requests.
 
 ### Note Groups
 
