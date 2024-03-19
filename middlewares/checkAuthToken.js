@@ -3,7 +3,6 @@ const JWT = require("jsonwebtoken");
 const checkAuthToken = (req, res, next) => {
 
     const authToken = req.cookies.token;
-    console.log(authToken);
 
     if (!authToken) {
         return res.status(401).json({ message: 'Token d\'authentification manquant.' });
