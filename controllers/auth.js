@@ -25,7 +25,8 @@ async function signIn(req, res){
     try {
         const saved = await user.save();
         const token = generateToken();
-        res.status(200).json({user: {_id: user._id, email: saved.email, groups: user.groups}, token: token});
+        res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+        res.status(200).json({user: {_id: user._id, email: saved.email, groups: user.groups}});
     } catch (error) {
         console.log(error);
         res.status(400).json({message: "Erreur lors de l'enregistrement de l'utilisateur"});
@@ -40,7 +41,8 @@ async function login(req, res){
         const user = await User.findOne({email});
         if(bcrypt.compare(password, user.password)){
             const token = generateToken();
-            res.status(200).json({user: {_id: user.id, email: user.email, groups: user.groups} , token: token});
+            res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+            res.status(200).json({user: {_id: user.id, email: user.email, groups: user.groups}});
         }
         else
             res.status(400).json("Mauvais mot de passe");

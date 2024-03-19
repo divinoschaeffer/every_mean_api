@@ -1,17 +1,13 @@
 const JWT = require("jsonwebtoken");
 
 const checkAuthToken = (req, res, next) => {
-    const token = req.headers.authorization;
 
-    if (!token) {
+    const authToken = req.cookies.token;
+    console.log(authToken);
+
+    if (!authToken) {
         return res.status(401).json({ message: 'Token d\'authentification manquant.' });
     }
-
-    if (!token.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'Format de token invalide.' });
-    }
-
-    const authToken = token.slice(7);
 
     JWT.verify(authToken,process.env.SECRET_KEY, (err, decoded) => {
         if(err) {
